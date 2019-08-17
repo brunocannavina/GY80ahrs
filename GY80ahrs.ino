@@ -17,14 +17,14 @@ int16_t gx, gy, gz;
 int16_t ax, ay, az;
 int16_t mx, my, mz;
 float temperature, pressure, altitude;
-float roll, pitch, heading;
+float roll, pitch, yaw;
 unsigned long previousMillis  = 0;
 unsigned long currentMillis   = 0;
 int interval = 40; //25 Hz
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Wire.begin();
   filter.begin(25);
   
@@ -128,13 +128,18 @@ void loop(void){
     filter.updateIMU(gyrox, gyroy, gyroz, accelx, accely, accelz);
     roll = filter.getRoll();
     pitch = filter.getPitch();
-    heading = filter.getYaw();
-    Serial.print(heading);
-    Serial.print(",");
-    Serial.print(pitch);
-    Serial.print(",");
-    Serial.println(roll);
-    
+    yaw = filter.getYaw();
+
+    Serial.print("pitch:"); 
+    Serial.print(pitch,2); 
+    Serial.print(" "); 
+    Serial.print("roll:"); 
+    Serial.print(roll,2); 
+    Serial.print(" ");
+    Serial.print("yaw:"); 
+    Serial.print(yaw,2); 
+    Serial.println(" ");   
+
     previousMillis = currentMillis;
   }
 }
